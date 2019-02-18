@@ -1,0 +1,153 @@
+
+<html>
+
+<head>
+    <title></title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="/js/materialize.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo">Logo</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="">Something</a></li>
+            <li><a href="">Lists</a></li>
+            <li><a href=""><%= records[0].UserName %></a></li>
+          </ul>
+        </div>
+    </nav>
+    <div class="container">
+      <ul class="collection">
+        <li class="collection-item">
+          <a class="modal-trigger btn-floating btn-small waves-effect waves-light red" href="#modalCreate" data-target="modalCreate">
+            <i class="material-icons">add</i>
+          </a>Create
+          <div class="switch secondary-content">
+            <label>
+            Off
+            <input type="checkbox">
+            <span class="lever"></span>
+            On
+            </label>
+          </div>
+          <a class="btn-small waves-effect waves-light red secondary-content" style="margin-right:20px">
+            <i class="material-icons">close</i>
+          </a>
+          <a class="offset-s2 btn-small waves-effect waves-light green secondary-content" style="margin-right:20px">
+            <i class="material-icons">check</i>
+          </a>
+        </li>
+      </ul>
+      <div class="row" id="fullContent">
+        <% for(var i=0; i < records.length; i++) { %>
+        <div class="col s10 m4" id="cardContent">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">
+              <%=records[i].Title %>
+              </span>
+              <p>
+              <%=records[i].Record %>
+              </p>
+            </div>
+            <div class="card-action">
+              <button name="editRecord" class="btn-small waves-light" value="<%=records[i].RecordId %>">
+                Edit
+              </button>
+              <button name="deleteRecord" class="btn-small waves-light" value="<%=records[i].RecordId %>">
+                Delete
+              </button>
+              <div class="switch secondary-content" style="margin-top:7px">
+                  <label>
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  </label>
+                </div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      <div id="editModal" class="modal">
+        <div class="modal-content">
+          <h4>Modal Header</h4>
+          <div class="row">
+            <form class="col s12" name="editRecord" id="editRecord">
+                <div class="row">
+                    <div class="input-field col s12" style="display:none;">
+                        <input type="text" class="UserId" name="UserId" value="<%=records[0].UserId %>">
+                        <input type="text" class="RecordId" name="RecordId" value="">
+                    </div>
+                  </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input placeholder="" value="" name="Title" id="first_name" type="text" class="validate">
+                  <label for="first_name">Title</label>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <textarea placeholder="" id="textarea1" name="Content" value="" class="materialize-textarea"></textarea>
+                      <label for="textarea1">Content</label>
+                    </div>
+                  </div>
+              </div>
+           </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn waves-effect waves-light" id="editRecord" type="submit" name="action">Save</button>
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </div>
+      </form>
+      </div>
+      <div id="modalCreate" class="modal">
+        <div class="modal-content">
+          <h4>Modal Header</h4>
+          <div class="row">
+            <form class="col s12" name="createRecord" id="createRecord">
+              <div class="row">
+                <div class="input-field col s12" style="display:none">
+                  <input type="text" class="UserId" name="UserId" value="<%=records[0].UserId %>">
+                  <input type="text" class="maxRecordId" name="maxRecordId" value="">
+                </div>
+                <div class="input-field col s12">
+                  <input placeholder="Title" name="Title" id="Title" type="text" class="validate" required>
+                  <span class="helper-text" data-error="fill the field" data-success="right"></span>
+                  <label for="Title">Title</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <textarea name="Record" id="Record" class="validate materialize-textarea"></textarea>
+                    <span class="helper-text" data-error="fill the input" data-success="right"></span>
+                    <label for="Record">Content</label>
+                  </div>
+                </div>
+               </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn waves-effect waves-light" id="sendRecord" type="submit" name="action">Create</button>
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+          </div>
+        </form>
+      </div>
+      <script>
+      $(document).ready(function(){
+      $('.collapsible').collapsible();
+      $('.modal').modal();
+      });
+      </script>
+      <script src="/js/record.js"></script>
+      <script>
+      </script>
+    </div>
+</body>
+
+</html>
