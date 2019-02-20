@@ -1,14 +1,13 @@
 const mysql = require('mysql');
-var Data = {host:"localhost", user:"root", password:"root", database:"tododb"};
+const queryConstructor = require('../connect.js');
 
-function getUserRecords(id, callback)
+function getUserRecords(_id)
 {
-    var connection = mysql.createConnection(Data);
-    connection.query(`SELECT * FROM user INNER JOIN record ON user.UserId = record.UserId WHERE user.UserId LIKE ${id}`, function(err, _records)
-    {
-        if(err) throw err;
-        callback(_records);
-    });
-    connection.end();
+    let records = queryConstructor.createQuery(
+    `SELECT * FROM user INNER JOIN record ON user.UserId = record.UserId WHERE user.UserId LIKE ${_id}`
+    );
+    
+    return records;
 }
+
 module.exports = {getUserRecords};

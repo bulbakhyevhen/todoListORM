@@ -1,34 +1,25 @@
 const mysql = require('mysql');
-var Data = {host:"localhost", user:"root", password:"root", database:"tododb"};
+const queryConsrtuctor = require('../connect.js');
 
-function addRecord(userId, title, record)
+function createRecord(_userId, _title, _record)
 {
-    let connect = mysql.createConnection(Data);
-    connect.query(`INSERT INTO record (UserId, Title, Record) VALUES (${userId}, "${title}", "${record}")`,
-    function(err, result)
-    {
-        if(err) throw err;
-    });
-    connect.end();
+    queryConsrtuctor.createQuery(
+    `INSERT INTO record (UserId, Title, Record) VALUES (${_userId}, "${_title}", "${_record}")`
+    );
 }
 
-function editRecord(recordId, title, record)
+function updateRecord(_recordId, _title, _record)
 {
-    let connect = mysql.createConnection(Data);
-    connect.query(`UPDATE record SET record.Title = '${title}', record.Record = '${record}' WHERE RecordId LIKE ${recordId}`, function(err, result)
-    {
-        if(err) throw err;
-    });
-    connect.end();
+    queryConsrtuctor.createQuery(
+    `UPDATE record SET record.Title = '${_title}', record.Record = '${_record}' WHERE RecordId LIKE ${_recordId}`
+    );
 }
 
-function deleteRecord(recordId)
+function deleteRecord(_recordId)
 {
-    let connect = mysql.createConnection(Data);
-    connect.query(`DELETE FROM record WHERE record.RecordId = ${recordId}`);
-    connect.end();
+    queryConsrtuctor.createQuery(
+    `DELETE FROM record WHERE record.RecordId = ${_recordId}`
+    );
 }
 
-
-
-module.exports = {addRecord, editRecord, deleteRecord};
+module.exports = {createRecord, updateRecord, deleteRecord};
