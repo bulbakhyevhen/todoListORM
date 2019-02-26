@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 
-let pool = mysql.createPool
+let db = mysql.createPool
 ({
     connectionLimit:10,
     host: "localhost",
@@ -8,28 +8,24 @@ let pool = mysql.createPool
     password: "root",
     database: "tododb"
 });
+
 function errorHandler(_err)
 {
     if(_err) throw _err;
 }
+
 function createQuery(_query)
 {
-    let promise = new Promise((resolve, reject)=>
+    return new Promise((resolve, reject)=>
     {
-        pool.getConnection((err, connection)=>
+        db.query(`${_query}`, function(err, result)
         {
             errorHandler(err);
-            connection.query(`${_query}`, (err, result) =>
-            {
-                errorHandler(err); 
-                resolve(result);
-                connection.release();
-            }); 
+            resolve(result);
         });
     });
-
-    return promise;
 }
+
 
 module.exports = {createQuery};
 
