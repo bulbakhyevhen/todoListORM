@@ -1,55 +1,55 @@
-const queryConstructor = require('../connect.js');
-const Token = require('../token.js');
+const jwt_token = require('../auth/token.js');
 const users = require('../models/userModel.js');
+const queryConstructor = require('../connect.js');
 
-function signUp(req, res)
+function checkPassword(req, res)
 {
     queryConstructor.createQuery(
-    `INSERT INTO
-     user (userId, userName, email, password)
-     VALUES (${req.body.userId}, "${req.body.userName}", "${req.body.email}", "${req.body.password}")`
-    )
-    .then(result => users.getUserbyId(result.insertId))
-    .then(result => res.send(result));
-}
-
-function signIn(req, res)
-{
-    queryConstructor.createQuery(
-    `SELECT userId, email, password FROM user WHERE email = "${req.body.email}" AND password = "${req.body.password}"`
+        `SELECT userId, userName, email, password FROM user WHERE email = "${req.body.email}" AND password = "${req.body.password}"`
     ).then(result => 
-         {
-            if(result.length == 0) 
+        {
+            if(result.length !== 0)
             {
-                res.send('Could not recognize email/pass set');
+                jwt_token.sendTokenSet(req, res, result[0].userId, result[0].userName, jwt_token.getExprirationDate(10));
             }
-            else 
-            { 
-                var token = new Token(result[0].userId, result[0].email);
-
-                queryConstructor.createQuery(
-                `UPDATE user SET refresh_token = "${token.refreshToken}" WHERE userId = ${result[0].userId}`
-                ).then(result => res.send({"access_token": token.accessToken, "refresh_token": token.refreshToken, "exp_in": new Date().setMinutes(10)} ));    
+            else
+            {
+                res.sendStatus(403);
             }
         });
 }
 
-function checkRefreshToken(req, res)
+function checkPremission(req, res, next)
 {
-    let _token = req.headers.refresh_token;
-    let _decodedToken = DecodeToken(_token);
- 
-    let token = new Token(_decodedToken.userId, _decodedToken.iis, new Date().setMinutes(10));
-
-    token.reSignTokens(req, res, _token, _decodedToken);
+    if(typeof(req.headers.access_token !== 'undefiend'))
+    {
+        next();
+    }
+    else 
+    {
+        res.sendStatus(403);
+    }
 }
 
-function DecodeToken(token)
+function reSignTokenSet(req, res)
 {
-    value = Buffer.from(`${token.split('.')[1]}`, 'base64').toString();
+    var token = req.headers.refresh_token;
+    var decoded_token = jwt.decode(req.headers.refresh_token, 'secret');
 
-    return JSON.parse(value);
+    queryConstructor.createQuery(`
+        SELECT refresh_token FROM user WHERE userId = ${decoded_token.userId}`
+        ).then(result => 
+            {
+                if(token == result[0].refresh_token & decoded_token.exp > Date.now())
+                {
+
+                    jwt_token.sendTokenSet(req, res, result[0].userId, result[0].userName, jwt_token.getExprirationDate(10));
+
+                }
+                else 
+                {
+                    res.sendStatus(403);
+                }
+            });
 }
-
-
-module.exports = {signUp, signIn, checkRefreshToken};
+module.exports = {checkPassword, checkPremission, reSignTokenSet};
