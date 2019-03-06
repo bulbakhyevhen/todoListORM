@@ -1,0 +1,24 @@
+{
+  "name": "todolist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
+    "connect-mysql": "^2.1.7",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "flow-bin": "^0.94.0",
+    "joi": "^14.3.1",
+    "jsonwebtoken": "^8.5.0",
+    "mysql": "^2.16.0",
+    "sequelize": "^4.42.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

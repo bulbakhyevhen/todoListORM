@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken');
-const queryConstructor = require('../connect.js');
+const queryConstructor = require('./connect.js');
+const key = require('./key.js');
 
 function createAccessToken(_userId, _role, _exp)
 {
-    return jwt.sign({userId : _userId, role : _role, exp : _exp}, 'secret');
+    return jwt.sign({userId : _userId, role : _role, exp : _exp}, key);
 }
 
 function createRefreshToken(_userId, _exp)
 {
-    return jwt.sign({userId: _userId, exp: _exp}, 'secret');
+    return jwt.sign({userId: _userId, exp: _exp}, key);
 }
 
 function getExprirationDate(minutes)
@@ -28,8 +29,21 @@ function sendTokenSet(req, res, _userId, _role, _exp)
 
     updateRefreshToken(_userId, refresh_token);
 
-    res.send({access_token : access_token, refresh_token : refresh_token, exp_in : _exp});
+    return {access_token : access_token, refresh_token : refresh_token, exp_in : _exp};
 
 }
 
-module.exports = {createAccessToken, createRefreshToken, getExprirationDate, updateRefreshToken, sendTokenSet};
+function verifyToken(token, key)
+{
+    try 
+    {
+        return jwt.decode(token, key);   
+    } 
+    catch (error) 
+    {
+        res.send(error);    
+    }
+}
+
+
+module.exports = {createAccessToken, createRefreshToken, getExprirationDate, updateRefreshToken, sendTokenSet, verifyToken};

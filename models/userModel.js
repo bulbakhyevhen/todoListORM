@@ -1,4 +1,6 @@
+const jwt_token = require('../token.js');
 const queryConstructor = require('../connect.js'); 
+const key = require('../key.js');
 
 function getUserbyId(_userId)
 {
@@ -7,11 +9,11 @@ function getUserbyId(_userId)
     ).then(result => res.send(result));
 }
 
-function getUsers(req, res)
+function getUserbyToken(req, res)
 {
     queryConstructor.createQuery(
-        `SELECT * FROM user`
-    ).then(result => res.send(result));
+        `SELECT * FROM user WHERE userId = ${req.access_token.userId}`
+        ).then(result => res.send(result));
 }
 
 function updateUser(req, res)
@@ -24,9 +26,47 @@ function updateUser(req, res)
 function createUser(req, res)
 {
     queryConstructor.createQuery(
-        `INSERT INTO user (userId, userName, email, password) VALUES (${req.body.userId}, ${req.body.userName}, ${req.body.email}, ${req.body.password})`
+        `INSERT INTO user (userName, email, password) VALUES (${req.body.userName}, ${req.body.email}, ${req.body.password})`
     ).then(result => getUserbyId(result.insertId));
 }
 
+function Authentification(req, res)
+{
+    queryConstructor.createQuery(
+        `SELECT userId, userName, email, password FROM user WHERE email = "${req.body.email}" AND password = "${req.body.password}"`
+    ).then(result => 
+        {
+            if(result.length !== 0)
+            {
+                res.send(jwt_token.sendTokenSet(req, res, result[0].userId, result[0].userName, jwt_token.getExprirationDate(10)));
+            }
+            else
+            {
+                res.sendStatus(403);
+            }
+        });
+}
 
-module.exports = {getUsers, updateUser, getUserbyId, createUser};
+function reSignTokenSet(req, res)
+{
+    var token = req.headers.refresh_token;
+    var decoded_token = jwt_token.verifyToken(token, key);
+
+    queryConstructor.createQuery(`
+        SELECT refresh_token FROM user WHERE userId = ${decoded_token.userId}`
+        ).then(result => 
+            {
+                if(token == result[0].refresh_token)
+                {
+
+                    jwt_token.sendTokenSet(req, res, result[0].userId, result[0].userName, jwt_token.getExprirationDate(10));
+
+                }
+                else 
+                {
+                    res.sendStatus(403);
+                }
+            });
+}
+
+module.exports = {updateUser, getUserbyToken, createUser, Authentification, reSignTokenSet};

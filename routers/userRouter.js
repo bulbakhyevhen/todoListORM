@@ -1,15 +1,14 @@
 const express = require('express');
 const users = require('../models/userModel.js');
 const userRouter = express.Router();
-const jwt = require('jsonwebtoken');
 
-userRouter.use('/', (req, res, next) =>
-{
-    var token = jwt.decode(req.headers.access_token, 'secret');
-    req.access_token = token;
-    next();
-});
-userRouter.get('/');
-userRouter.put('/', users.updateUser);
+
+userRouter.get('/signIn');
+userRouter.get('/signUp');
+userRouter.post('/signIn', users.Authentification);
+userRouter.post('/signUp', users.createUser);
+userRouter.post('/refresh-token', users.reSignTokenSet);
+userRouter.get('/account', users.getUserbyToken);
+userRouter.put('/account', users.updateUser);
 
 module.exports = userRouter;
