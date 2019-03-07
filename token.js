@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const queryConstructor = require('./connect.js');
 const key = require('./key.js');
 
 function createAccessToken(_userId, _role, _exp)
@@ -17,20 +16,13 @@ function getExprirationDate(minutes)
     return Math.floor(Date.now() / 1000) + (minutes * 60);
 }
 
-function updateRefreshToken(userId, refresh_token)
+function createTokenSet(userId, role, exp)
 {
-    queryConstructor.createQuery(`UPDATE user SET refresh_token = "${refresh_token}" WHERE userId = ${userId}`);
-}
+    let access_token = createAccessToken(userId, role, getExprirationDate(10));
+    let refresh_token = createRefreshToken(userId, getExprirationDate(60));
 
-function sendTokenSet(req, res, _userId, _role, _exp)
-{
-    let access_token = createAccessToken(_userId, _role, getExprirationDate(10));
-    let refresh_token = createRefreshToken(_userId, getExprirationDate(60));
 
-    updateRefreshToken(_userId, refresh_token);
-
-    return {access_token : access_token, refresh_token : refresh_token, exp_in : _exp};
-
+    return {access_token : access_token, refresh_token : refresh_token, exp_in : exp};
 }
 
 function verifyToken(token, key)
@@ -46,4 +38,4 @@ function verifyToken(token, key)
 }
 
 
-module.exports = {createAccessToken, createRefreshToken, getExprirationDate, updateRefreshToken, sendTokenSet, verifyToken};
+module.exports = {createAccessToken, createRefreshToken, getExprirationDate, createTokenSet, verifyToken};

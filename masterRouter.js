@@ -1,7 +1,7 @@
 const recordRouter = require('./routers/recordRouter.js');
 const userRouter = require('./routers/userRouter.js');
 const validateRequest = require('./validation.js');
-const jwt_token = require('./token');
+const token = require('./token');
 const key = require('./key.js');
 
 module.exports = (app) => 
@@ -21,7 +21,7 @@ module.exports = (app) =>
             }
             else 
             {
-                req.access_token = jwt_token.verifyToken(req.headers.access_token, key);
+                req.access_token = token.verifyToken(req.headers.access_token, key);
     
                 next();
             }    

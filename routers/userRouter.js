@@ -1,14 +1,15 @@
 const express = require('express');
-const users = require('../models/userModel.js');
+const userController = require('../controllers/userController.js');
+const authController = require('../controllers/authController.js');
 const userRouter = express.Router();
 
 
 userRouter.get('/signIn');
 userRouter.get('/signUp');
-userRouter.post('/signIn', users.Authentification);
-userRouter.post('/signUp', users.createUser);
-userRouter.post('/refresh-token', users.reSignTokenSet);
-userRouter.get('/account', users.getUserbyToken);
-userRouter.put('/account', users.updateUser);
+userRouter.post('/signIn', authController.Authentification);
+userRouter.post('/signUp', userController.createUser);
+userRouter.post('/refresh-token', authController.reSignTokens);
+userRouter.get('/account', userController.getUser);
+userRouter.put('/account', userController.updateUser);
 
 module.exports = userRouter;
