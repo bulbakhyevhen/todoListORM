@@ -10,7 +10,9 @@ const Records = db.sequelize.define('record', {
     userId : db.Sequelize.INTEGER(11),
     title : db.Sequelize.STRING(45),
     record : db.Sequelize.STRING(500),
-    done : db.Sequelize.BOOLEAN()
+    done : db.Sequelize.BOOLEAN(),
+    boardId : db.Sequelize.INTEGER(11)
+    
 }, {tableName: 'record', timestamps : false});
 
 module.exports = Records;

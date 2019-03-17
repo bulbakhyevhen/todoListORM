@@ -9,7 +9,10 @@ const schema = Joi.object().keys
     recordId : Joi.number().integer(11).min(1),
     title : Joi.string().min(1).max(45),
     record : Joi.string().min(0).max(500),
-    done : Joi.bool()
+    done : Joi.bool(),
+    boardName : Joi.string().min(1).max(45),
+    position : Joi.number().integer().min(1),
+    groupId : Joi.number().integer(9).min(1)
 });
 
 function validateRequest(req, res, next)

@@ -1,3 +1,5 @@
+-- MySQL dump 10.13  Distrib 5.7.24, for Win32 (AMD64)
+--
 -- Host: localhost    Database: tododb
 -- ------------------------------------------------------
 -- Server version	5.7.24-log
@@ -14,6 +16,57 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `board`
+--
+
+DROP TABLE IF EXISTS `board`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `board` (
+  `boardId` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `boardName` varchar(50) DEFAULT NULL,
+  `position` int(11) DEFAULT NULL,
+  PRIMARY KEY (`boardId`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `board`
+--
+
+LOCK TABLES `board` WRITE;
+/*!40000 ALTER TABLE `board` DISABLE KEYS */;
+INSERT INTO `board` VALUES (1,1,'first-board',1),(2,2,'second-board',2),(3,1,'third-board',2),(4,1,'fourth-board',3);
+/*!40000 ALTER TABLE `board` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `groups`
+--
+
+DROP TABLE IF EXISTS `groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `groups` (
+  `groupId` int(11) NOT NULL,
+  `groupName` varchar(50) DEFAULT NULL,
+  `groupDescription` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`groupId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `groups`
+--
+
+LOCK TABLES `groups` WRITE;
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+INSERT INTO `groups` VALUES (1,'first group','first desc'),(2,'second group','second desc'),(3,'third group','third desc');
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `record`
 --
 
@@ -23,11 +76,12 @@ DROP TABLE IF EXISTS `record`;
 CREATE TABLE `record` (
   `recordId` mediumint(9) NOT NULL AUTO_INCREMENT,
   `userId` int(11) DEFAULT NULL,
+  `boardId` mediumint(9) DEFAULT NULL,
   `title` varchar(45) DEFAULT NULL,
   `record` varchar(500) DEFAULT NULL,
-  `done` varchar(500) DEFAULT NULL,
+  `done` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`recordId`)
-) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +90,7 @@ CREATE TABLE `record` (
 
 LOCK TABLES `record` WRITE;
 /*!40000 ALTER TABLE `record` DISABLE KEYS */;
-INSERT INTO `record` VALUES (2,2,'Sql wtih Mysql','Learn how to use mysql server','1'),(4,2,'REST API','Learn how to create REST','0'),(105,1,'Update From Postman2','Update From Postman2','0'),(111,2,'Pohooy','Voobwe pohooy','1'),(182,1,'new title22','new record2',NULL),(185,1,'Title3','Record3',NULL),(186,3,'title-userid-3','record-userid-3',NULL),(187,4,'title-userid-4','record-userid-4',NULL),(188,5,'title-userid-5','record-userid-5',NULL),(189,6,'title-userid-6','record-userid-6',NULL),(190,7,'title-userid-7','record-userid-7',NULL),(191,1,'asdasdsdsdg','sdadsdsadasd',NULL),(192,1,'asdasdasdasdasdasdsdsdg','sdadasdasdasdsdsadasd',NULL),(193,1,'asdasdasdasdasdasdsdsdg','sdadasdasdasdsdsadasd',NULL),(194,1,'asdasdasdasdasdasdsdsdg','sdadasdasdasdsdsadasd',NULL),(195,1,'asdasdasdasdasdasdsdsdg','sdadasdasdasdsdsadasd',NULL),(196,1,'jwt','jwt-record',NULL),(197,4,'title jwt','record-jwt',NULL);
+INSERT INTO `record` VALUES (1,1,1,'title1','record1',0),(2,2,2,'title2','record2',0),(3,1,1,'title3','record3',0),(4,1,3,'title4','record4',0),(5,1,NULL,NULL,NULL,0);
 /*!40000 ALTER TABLE `record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -48,13 +102,13 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `userId` int(11) NOT NULL,
+  `userId` mediumint(9) NOT NULL AUTO_INCREMENT,
   `userName` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
   `refresh_token` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,8 +117,33 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Admin','Admin@gmail.com','5f4dcc3b5aa765d61d8327deb882cf99','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjF9.SmhmOUR5cVJHRmp0R0I4RU9yblhhWDJweVEyUEJLWDZRKzFUUlpBR21LQT0='),(2,'Hanry','hanryjob@gmail.com','ee11cbb19052e40b07aac0ca060c23ee','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImV4cCI6MTU1MTY3OTMxNSwiaWF0IjoxNTUxNjc1NzE1fQ.86b7eZH7l8vFGEed7ZH57HPgXnv__fRc8J3nTPdS1yo'),(3,'Alex','alexalex@gmail.com','24c9e15e52afc47c225b757e7bee1f9d',NULL),(4,'John','johnemailx@gmail.com','7e58d63b60197ceb55a1c487989a3720','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImV4cCI6MTU1MTc5NDg0OCwiaWF0IjoxNTUxNzkxMjQ4fQ.dmdSrVXPZ6btwYy7rqu_NTJ3fQGtGCSxXJiYIrtbfnU'),(5,'David','david@gmail.com','172522ec1028ab781d9dfd17eaca4427',NULL),(6,'rempl','rempl@gmail.com','172522ec1028ab781d9dfd17eaca4427','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImV4cCI6MTU1MTg0Mjk1MCwiaWF0IjoxNTUxODM5MzUwfQ.pu5V0hxvRlI-l9NoXRWcB6PbJUKsoVaAQ6fIVnl4gew'),(7,'someone','some@gmail.com','172522ec1028ab781d9dfasfhsdfgdfgdfgd17eaca4427',NULL);
+INSERT INTO `user` VALUES (1,'Admin','Admin@gmail.com','5f4dcc3b5aa765d61d8327deb882cf99','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjF9.SmhmOUR5cVJHRmp0R0I4RU9yblhhWDJweVEyUEJLWDZRKzFUUlpBR21LQT0='),(2,'Hanry','hanryjob@gmail.com','ee11cbb19052e40b07aac0ca060c23ee','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImV4cCI6MTU1MTY3OTMxNSwiaWF0IjoxNTUxNjc1NzE1fQ.86b7eZH7l8vFGEed7ZH57HPgXnv__fRc8J3nTPdS1yo'),(3,'John','john@gmail.com','ee11cbb19052a40b07aac0ce060c23ee',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usergroups`
+--
+
+DROP TABLE IF EXISTS `usergroups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usergroups` (
+  `userId` int(11) DEFAULT NULL,
+  `groupId` int(11) DEFAULT NULL,
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usergroups`
+--
+
+LOCK TABLES `usergroups` WRITE;
+/*!40000 ALTER TABLE `usergroups` DISABLE KEYS */;
+INSERT INTO `usergroups` VALUES (1,2,1),(1,3,2);
+/*!40000 ALTER TABLE `usergroups` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -76,4 +155,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-06 10:35:42
+-- Dump completed on 2019-03-18  0:10:43

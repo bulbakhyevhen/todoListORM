@@ -40,4 +40,14 @@ function deleteUser(req, res){
     });
 }
 
+function createGroup(req, res){
+
+    
+
+}
+
+function addUser(){
+    
+}
+
 module.exports = {getUser, createUser, updateUser, deleteUser};

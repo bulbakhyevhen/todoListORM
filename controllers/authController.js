@@ -41,7 +41,7 @@ function reSignTokens(req, res)
 
         if(request_token == result.refresh_token){
             
-            let tokens = token.createTokenSet(user.userId, user.userName, Date.now());
+            let tokens = token.createTokenSet(user.userId, user.groupId, Date.now());
 
             res.send(tokens);
         }

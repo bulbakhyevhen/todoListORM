@@ -1,5 +1,7 @@
 const recordRouter = require('./routers/recordRouter.js');
 const userRouter = require('./routers/userRouter.js');
+const boardRouter = require('./routers/boardRouter');
+const groupRouter = require('./routers/groupRouter.js');
 const validateRequest = require('./validation.js');
 const token = require('./token');
 const key = require('./key.js');
@@ -28,5 +30,7 @@ module.exports = (app) =>
         }
     });
     app.use('/', userRouter);
+    app.use('/boards', boardRouter);
     app.use('/records', recordRouter);
+    app.use('/groups', groupRouter);
 };
