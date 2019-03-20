@@ -1,12 +1,8 @@
-const boards = require('../models/boardModel.js');
-const records = require('../models/recordModel.js');
-
-boards.hasMany(records, {foreignKey : 'boardId'});
-records.belongsTo(boards, {foreignKey : 'boardId'});
+const db = require('../models');
 
 function getUserBoards(req, res){
 
-    boards.findAll({
+   db.boards.findAll({
 
         where : {
             userId : req.access_token.userId
@@ -20,7 +16,7 @@ function getUserBoards(req, res){
 
 function createBoard(req, res){
 
-    boards.create({
+    db.boards.create({
 
         userId : req.access_token.userId,
         boardName : req.body.boardName,
@@ -32,29 +28,29 @@ function createBoard(req, res){
 
 function updateBoard(req, res){
 
-    boards.update({
+    db.boards.update({
 
         userId : req.access_token.userId,
         boardName : req.body.boardName,
         position : req.body.position
 
     },{where : {boardId : req.params.id}})
-    .then(boards.findByPk(req.params.id))
+    .then(db.boards.findByPk(req.params.id))
     .then(board => res.send(board));
 
 }
 
 function deleteBoard(req, res){
 
-    boards.destroy({
+    db.boards.destroy({
 
         where : {boardId : req.params.id}
 
-    }).then(records.destroy({
+    }).then(db.records.destroy({
 
         where : {boardId : req.params.id}
 
-    })).then(result => res.send(req.params.id));
+    })).then(res.send(req.params.id));
 
 }
 

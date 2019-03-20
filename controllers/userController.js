@@ -1,14 +1,14 @@
-const users = require('../models/userModel');
+const db = require('../models');
 
 function getUser(req, res){
 
-    users.findByPk(req.access_token).then(users => res.send(users));
+    db.users.findByPk(req.access_token).then(users => res.send(users));
 
 }
 
 function createUser(req, res){
 
-    users.create({
+    db.users.create({
 
         userName : req.body.userName,
         email : req.body.email,
@@ -20,34 +20,24 @@ function createUser(req, res){
 
 function updateUser(req, res){
 
-    users.update({
+    db.users.update({
 
         where : {userId : req.access_token}, 
         userName : req.body.userName,
         email : req.body.email,
         password : req.body.password,
 
-    }).then(user => req.send(user));
+    }).then(user => res.send(user));
 
 }
 
 function deleteUser(req, res){
 
-    users.destroy({
+    db.users.destroy({
 
         where : {userId : req.access_token}
 
     });
-}
-
-function createGroup(req, res){
-
-    
-
-}
-
-function addUser(){
-    
 }
 
 module.exports = {getUser, createUser, updateUser, deleteUser};

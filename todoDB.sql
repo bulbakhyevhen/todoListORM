@@ -1,5 +1,3 @@
--- MySQL dump 10.13  Distrib 5.7.24, for Win32 (AMD64)
---
 -- Host: localhost    Database: tododb
 -- ------------------------------------------------------
 -- Server version	5.7.24-log
@@ -108,7 +106,7 @@ CREATE TABLE `user` (
   `password` varchar(100) DEFAULT NULL,
   `refresh_token` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,7 +115,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Admin','Admin@gmail.com','5f4dcc3b5aa765d61d8327deb882cf99','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjF9.SmhmOUR5cVJHRmp0R0I4RU9yblhhWDJweVEyUEJLWDZRKzFUUlpBR21LQT0='),(2,'Hanry','hanryjob@gmail.com','ee11cbb19052e40b07aac0ca060c23ee','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImV4cCI6MTU1MTY3OTMxNSwiaWF0IjoxNTUxNjc1NzE1fQ.86b7eZH7l8vFGEed7ZH57HPgXnv__fRc8J3nTPdS1yo'),(3,'John','john@gmail.com','ee11cbb19052a40b07aac0ce060c23ee',NULL);
+INSERT INTO `user` VALUES (1,'Admin','Admin@gmail.com','5f4dcc3b5aa765d61d8327deb882cf99','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjF9.SmhmOUR5cVJHRmp0R0I4RU9yblhhWDJweVEyUEJLWDZRKzFUUlpBR21LQT0='),(2,'Hanry','hanryjob@gmail.com','ee11cbb19052e40b07aac0ca060c23ee','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImV4cCI6MTU1MTY3OTMxNSwiaWF0IjoxNTUxNjc1NzE1fQ.86b7eZH7l8vFGEed7ZH57HPgXnv__fRc8J3nTPdS1yo'),(3,'John','john@gmail.com','ee11cbb19052a40b07aac0ce060c23ee',NULL),(4,'someone1','someone@gmail.com','ee11qbb19052effb07aac0ca060c23ee',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,10 +128,8 @@ DROP TABLE IF EXISTS `usergroups`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usergroups` (
   `userId` int(11) DEFAULT NULL,
-  `groupId` int(11) DEFAULT NULL,
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `groupId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +138,7 @@ CREATE TABLE `usergroups` (
 
 LOCK TABLES `usergroups` WRITE;
 /*!40000 ALTER TABLE `usergroups` DISABLE KEYS */;
-INSERT INTO `usergroups` VALUES (1,2,1),(1,3,2);
+INSERT INTO `usergroups` VALUES (1,2),(1,3),(2,1),(2,2);
 /*!40000 ALTER TABLE `usergroups` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -155,4 +151,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-18  0:10:43
+-- Dump completed on 2019-03-20 23:02:49

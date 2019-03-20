@@ -1,10 +1,10 @@
-const recordRouter = require('./routers/recordRouter.js');
-const userRouter = require('./routers/userRouter.js');
-const boardRouter = require('./routers/boardRouter');
-const groupRouter = require('./routers/groupRouter.js');
-const validateRequest = require('./validation.js');
-const token = require('./token');
-const key = require('./key.js');
+const groupRouter = require('./groupRouter');
+const userRouter = require('./userRouter.js');
+const boardRouter = require('./boardRouter');
+const recordRouter = require('./recordRouter.js');
+const validateRequest = require('../auth/validation.js');
+const token = require('../auth/token.js');
+const key = require('../auth/key.js');
 
 module.exports = (app) => 
 {

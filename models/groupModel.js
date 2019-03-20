@@ -1,18 +1,18 @@
-const db = require('../connection.js');
+const conn = require('../connection.js');
 
-const Groups = db.sequelize.define('groups', {
+const Groups = conn.sequelize.define('groups', {
 
     groupId : {
 
-        type : db.Sequelize.INTEGER(11), 
+        type : conn.Sequelize.INTEGER(11), 
         primaryKey : true, 
         allowNull : false, 
         autoIncrement : true 
     
     },
-    groupName : db.Sequelize.STRING(50),
-    groupDescription : db.Sequelize.STRING(100)
+    groupName : conn.Sequelize.STRING(50),
+    groupDescription : conn.Sequelize.STRING(100)
 
 }, {tableName : 'groups', timestamps : false});
 
-module.exports = userGroup;
+module.exports = Groups;

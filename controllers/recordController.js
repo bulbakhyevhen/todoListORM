@@ -1,8 +1,8 @@
-const records = require('../models/recordModel');
+const db = require('../models/recordModel');
 
 function createRecord(req, res){
 
-    records.create({
+    db.records.create({
         
         userId : req.access_token.userId,
         title : req.body.title,
@@ -16,7 +16,7 @@ function createRecord(req, res){
 
 function updateRecord(req, res){
 
-    records.update({
+    db.records.update({
 
         title : req.body.title,
         record : req.body.record,
@@ -24,14 +24,14 @@ function updateRecord(req, res){
         boardId : req.body.boardId
 
     },{where : {recordId : req.params.id}})
-    .then(records.findByPk(req.params.id)
+    .then(db.records.findByPk(req.params.id)
     .then(record => res.send(record)));
 
 }
 
 function deleteRecord(req, res){
 
-    records.destroy({
+    db.records.destroy({
 
         where : {recordId : req.params.id}
 

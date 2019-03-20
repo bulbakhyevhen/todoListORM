@@ -1,9 +1,9 @@
 const express = require('express');
-const recordController = require('../controllers/recordController');
+const controllers = require('../controllers');
 const recordRouter = express.Router();
 
-recordRouter.post('/', recordController.createRecord);
-recordRouter.put('/:recordId', recordController.updateRecord);
-recordRouter.delete('/:recordId', recordController.deleteRecord);
+recordRouter.post('/', controllers.record.createRecord);
+recordRouter.put('/:recordId', controllers.record.updateRecord);
+recordRouter.delete('/:recordId', controllers.record.deleteRecord);
 
 module.exports = recordRouter;

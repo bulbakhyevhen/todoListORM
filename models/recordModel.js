@@ -1,17 +1,18 @@
-const db = require('../connection.js');
+const conn = require('../connection.js');
 
-const Records = db.sequelize.define('record', {
+const Records = conn.sequelize.define('record', {
+    
     recordId : {
-        type : db.Sequelize.INTEGER(9),
+        type : conn.Sequelize.INTEGER(9),
         primaryKey : true,
         allowNull : false,
         autoIncrement : true
     },
-    userId : db.Sequelize.INTEGER(11),
-    title : db.Sequelize.STRING(45),
-    record : db.Sequelize.STRING(500),
-    done : db.Sequelize.BOOLEAN(),
-    boardId : db.Sequelize.INTEGER(11)
+    userId : conn.Sequelize.INTEGER(11),
+    title : conn.Sequelize.STRING(45),
+    record : conn.Sequelize.STRING(500),
+    done : conn.Sequelize.BOOLEAN(),
+    boardId : conn.Sequelize.INTEGER(11)
     
 }, {tableName: 'record', timestamps : false});
 
