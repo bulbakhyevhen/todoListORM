@@ -3,7 +3,7 @@ const {dbName, userName, password, host, dialect} = require('./config.json');
 
 
 
-const sequelize = new Sequelize(dbName, username, password, {
+const sequelize = new Sequelize(dbName, userName, password, {
     host : host,
     dialect : dialect,
     pool : {
