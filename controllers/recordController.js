@@ -1,5 +1,15 @@
 const db = require('../models');
 
+function getRecords(req, res){
+    
+    db.records.findAll({
+        where : {userId : req.access_token.userId}
+    })
+        .then(records => res.send(records))
+            .catch(error => res.send(error));
+
+}
+
 function createRecord(req, res){
 
     const {boardId} = req.params;
@@ -48,4 +58,4 @@ function deleteRecord(req, res){
 
 }
 
-module.exports = {createRecord, updateRecord, deleteRecord};
+module.exports = {createRecord, updateRecord, deleteRecord, getRecords};

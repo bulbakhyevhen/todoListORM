@@ -1,8 +1,11 @@
 const Sequelize = require('sequelize');
+const {dbName, userName, password, host, dialect} = require('./config.json');
 
-const sequelize = new Sequelize('todoDB', 'root', 'root', {
-    host : 'localhost',
-    dialect : 'mysql',
+
+
+const sequelize = new Sequelize(dbname, username, password, {
+    host : host,
+    dialect : dialect,
     pool : {
         max: 5,
         min: 0,
@@ -10,7 +13,5 @@ const sequelize = new Sequelize('todoDB', 'root', 'root', {
         idle: 10000
     }
 });
-
-
 
 module.exports = {Sequelize, sequelize};
