@@ -8,9 +8,10 @@ function getUserBoards(req, res){
             userId : req.access_token.userId
         },
         order : [['position', 'ASC']],
-        include : [records],
+        include : [db.records],
 
-    }).then(boards => res.send(boards));
+    }).then(boards => res.send(boards))
+        .catch(err => {res.status(500).send(err)});
 
 }
 
@@ -22,11 +23,14 @@ function createBoard(req, res){
         boardName : req.body.boardName,
         position : req.body.position
 
-    }).then(board => res.send(board));
+    }).then(board => res.send(board))
+        .catch(err => {res.status(500).send(err)});
 
 }
 
 function updateBoard(req, res){
+
+    const {boardId} = req.params;
 
     db.boards.update({
 
@@ -34,23 +38,27 @@ function updateBoard(req, res){
         boardName : req.body.boardName,
         position : req.body.position
 
-    },{where : {boardId : req.params.id}})
-    .then(db.boards.findByPk(req.params.id))
-    .then(board => res.send(board));
+    },{where : {boardId : boardId}})
+    .then(() => { return db.boards.findByPk(boardId) })
+        .then(board => res.send(board))
+            .catch(err => {res.status(500).send(err)});
 
 }
 
 function deleteBoard(req, res){
 
+    const {boardId} = req.params;
+
     db.boards.destroy({
 
-        where : {boardId : req.params.id}
+        where : {boardId : boardId}
 
     }).then(db.records.destroy({
 
-        where : {boardId : req.params.id}
+        where : {boardId : boardId}
 
-    })).then(res.send(req.params.id));
+    })).then(res.send(boardId))
+        .catch(err => {res.status(500).send(err)});
 
 }
 

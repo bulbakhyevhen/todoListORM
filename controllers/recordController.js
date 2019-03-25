@@ -1,20 +1,25 @@
-const db = require('../models/recordModel');
+const db = require('../models');
 
 function createRecord(req, res){
 
+    const {boardId} = req.params;
+
     db.records.create({
         
+        boardId : boardId,
         userId : req.access_token.userId,
         title : req.body.title,
         record : req.body.record,
         done : false,
-        boardId : req.body.boardId
 
-    }).then(record => res.send(record));
+    }).then(record => res.send(record))
+        .catch(err => {res.status(500).send(err)});
 
 }
 
 function updateRecord(req, res){
+
+    const {recordId} = req.params;
 
     db.records.update({
 
@@ -23,19 +28,23 @@ function updateRecord(req, res){
         done : req.body.done,
         boardId : req.body.boardId
 
-    },{where : {recordId : req.params.id}})
-    .then(db.records.findByPk(req.params.id)
-    .then(record => res.send(record)));
+    },{where : {recordId : recordId}})
+    .then(db.records.findByPk(recordId)
+        .then(record => res.send(record)))
+            .catch(err => {res.status(500).send(err)});
 
 }
 
 function deleteRecord(req, res){
 
+    const {recordId} = req.params;
+
     db.records.destroy({
 
-        where : {recordId : req.params.id}
+        where : {recordId : recordId}
 
-    }).then(res.send(req.params.id));
+    }).then(res.send(recordId))
+        .catch(err => {res.status(500).send(err)});
 
 }
 

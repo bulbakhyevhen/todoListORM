@@ -1,10 +1,10 @@
 const express = require('express');
-const controllers = require('../controllers');
+const boards = require('../controllers').board;
 const boardRouter = express.Router();
 
-boardRouter.get('/', controllers.board.getUserBoards);
-boardRouter.post('/', controllers.board.createBoard);
-boardRouter.put('/:boardId', controllers.board.updateBoard);
-boardRouter.delete('/:boardId', controllers.board.deleteBoard);
+boardRouter.get('/', boards.getUserBoards);
+boardRouter.post('/', boards.createBoard);
+boardRouter.put('/:boardId', boards.updateBoard);
+boardRouter.delete('/:boardId', boards.deleteBoard);
 
 module.exports = boardRouter;

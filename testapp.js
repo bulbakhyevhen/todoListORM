@@ -1,14 +1,22 @@
-const express = require('express');
-const app = express();
-app.use(express.json());
 
-app.post('/record/:id' , (req, res) => {
 
-    var recordId = req.params.id; 
+var array = [1, 2, 3];
+var temp;
+function writeData(arr){
 
-    console.log(recordId);
+    return Promise.all(arr.map(createQuery));
+    
+}
 
-    res.send(recordId);
-});
+function createQuery(){
 
-app.listen(5000);
+    return new Promise((resolve, reject) =>
+    {
+        temp += array[i];
+        resolve(temp);
+    })
+
+}
+
+
+writeData(array).then(() => {return 1});

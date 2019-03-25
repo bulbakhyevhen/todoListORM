@@ -1,13 +1,13 @@
 const express = require('express');
-const controllers = require('../controllers');
+const groups = require('../controllers').userGroups;
 const groupRouter = express.Router();
 
-groupRouter.get('/', controllers.userGroups.getUserGroups);
-groupRouter.get('/:id', controllers.userGroups.getUserGroup);
-groupRouter.post('/', controllers.userGroups.createGroup);
-groupRouter.put('/:id', controllers.userGroups.updateGroup);
-groupRouter.delete('/:id', controllers.userGroups.deleteGroup);
-groupRouter.post('/members/:id', controllers.userGroups.leaveGroup);
-groupRouter.post('/members', controllers.userGroups.addUser);
+groupRouter.get('/', groups.getUserGroups);
+groupRouter.get('/:id', groups.getUserGroup);
+groupRouter.post('/', groups.createGroup);
+groupRouter.put('/:id', groups.updateGroup);
+groupRouter.delete('/:id', groups.deleteGroup);
+groupRouter.post('/members/:id', groups.leaveGroup);
+groupRouter.post('/members', groups.addUser);
 
 module.exports = groupRouter;

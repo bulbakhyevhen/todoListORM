@@ -7,45 +7,58 @@ function getUserGroups(req, res){
         where : {userId : req.access_token.userId},
         include : [db.groups]
 
-    }).then(groups => res.send(groups));
-
+    }).then(groups => res.send(groups))
+        .catch(err => {res.status(500).send(err)});
+        
 }
 
 function getUserGroup(req, res){
 
+    const {id} = req.params;
+
     db.userGroups.findAll({
         
-        where : {groupId : req.params.id},
+        where : {groupId : id},
         include : [{
             model : db.groups,
             include : [
-                {model : db.users}, 
+                {model : db.users, attributes : {exclude : ['refresh_token', 'password']}}, 
                 {model : db.boards, include : [db.records]}
             ]
         }]
 
-    }).then(group => res.send(group));
+    }).then(group => res.send(group))
+        .catch(err => {res.status(500).send(err)});
 
 }
 
 function updateGroup(req, res){
+    
+    const {id} = req.params;
+
     db.groups.update({
 
-        where : {groupId : req.params.id},
         groupName : req.body.groupName,
         groupDescription : req.body.groupDescription
 
-    }).then(db.groups.findByPk(req.params.id)).then(group => res.send(group));
+    },{ where : {groupId : id}})
+        .then(() => { return db.groups.findByPk(id) })
+            .then(group => res.send(group))
+                .catch(err => {res.status(500).send(err)});
+
 }
 
 function deleteGroup(req, res){
 
+    const {id} = req.params;
+
     db.userGroups.findAll({
 
         attributes : ['groupId'],
-        where : {groupId : req.params.id},
+        where : {groupId : id},
 
-    }).then(db.userGroups.destroy);
+    }).then(db.userGroups.destroy)
+    .catch(err => {res.status(500).send(err)});
 
 }
 
@@ -56,7 +69,8 @@ function createGroup(req, res){
         groupName : req.body.groupName,
         groupDescription : req.body.groupDescription,
 
-    }).then(group => res.send(group));
+    }).then(group => res.send(group))
+        .catch(err => {res.sendStatus(500)});
 
 }
 
@@ -69,7 +83,8 @@ function leaveGroup(req, res){
             groupId : req.params.id
         }
 
-    }).then(res.send(req.params.id));
+    }).then(res.send(req.params.id))
+        .catch(err => {res.status(500).send(err)});
 
 }
 
@@ -97,7 +112,8 @@ function addUser(req, res){
 
         });
 
-    }).then(user => res.send(user));
+    }).then(user => res.send(user))
+        .catch(err => {res.status(500).send(err)});
 
 }
 

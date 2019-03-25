@@ -1,15 +1,15 @@
 const jwt = require('jsonwebtoken');
 const key = require('./key.js');
 
-function createAccessToken(_userId, _role, _exp){
+function createAccessToken(userId, role, exp){
 
-    return jwt.sign({userId : _userId, role : _role, exp : _exp}, key);
+    return jwt.sign({userId : userId, role : role, exp : exp}, key);
 
 }
 
-function createRefreshToken(_userId, _exp){
+function createRefreshToken(userId, exp){
 
-    return jwt.sign({userId: _userId, exp: _exp}, key);
+    return jwt.sign({userId: userId, exp: exp}, key);
 
 }
 
@@ -34,10 +34,9 @@ function verifyToken(token, key){
         return jwt.decode(token, key);   
     } 
     catch (error) {
-        res.send(error);    
+        res.status(500).send(error);
     }
 
 }
-
 
 module.exports = {createAccessToken, createRefreshToken, getExprirationDate, createTokenSet, verifyToken};
